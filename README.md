@@ -10,13 +10,13 @@ Written in python
 
 # Calibration file
 
-Negative values describe 'valleys' (nozzle too far from surface).
-Positive values describe 'hills' (nozzle too close to surface).
+Negative Z-value describes 'valley' (nozzle too far from surface).
+Positive Z-value describes 'hill' (nozzle too close to surface).
 Units are in mm.
 
-Normal file should consist of mostly negative Z values.
+Normal file should consist of all negative Z-values.
 Adjust hotbed mechanically so that without zlevler
-nozzle at Z=0 never touches the surface.
+nozzle at Z=0 doesn't touch the hotbed surface.
 
 Surface sampling: Move the nozzle accross the hotbed and 
 count how many papers can be inserted between the nozle and hotbed. 
