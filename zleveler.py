@@ -107,8 +107,9 @@ with open(outfilename, "w") as f:
                if ";LAYER:" in line:
                     layer = int(line[7:])
                
-               if getValue(line, "G", None) >= 0 and getValue(line, "G", None) <= 1 and layer < toLayer:
-                       x = getValue(line, "X", x)
+               g = getValue(line, "X", None)
+               if g >= 0 and g <= 1 and layer < toLayer:
+                       x = getValue(line, "X", y)
                        y = getValue(line, "Y", y)
                        z = getValue(line, "Z", z) 
                        e = getValue(line, "E", e)        
@@ -118,7 +119,7 @@ with open(outfilename, "w") as f:
                        
                        # todo: split one long G line into many short ones
 
-                       f.write("G1 ")
+                       f.write("G%d " %(g))
                        f.write("X%0.3f " %(x))
                        f.write("Y%0.3f " %(y))
                        f.write("Z%0.3f " %(newZ))
