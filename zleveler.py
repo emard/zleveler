@@ -117,7 +117,8 @@ with open(outfilename, "w") as f:
                        e = getValue(line, "E", None)
                        v = getValue(line, "F", None)
                        
-                       newZ = z + zi(x,y)
+                       # apply adjustment, linearly reduced with layers
+                       newZ = z + zi(x,y) * (toLayer-layer)/toLayer;
                        
                        # todo: split one long G line into many short ones
 
