@@ -21,7 +21,7 @@ nozzle at Z=0 never touches the surface.
 Surface sampling: Move the nozzle accross the hotbed and 
 count how many papers can be inserted between the nozle and hotbed. 
 
-A 2D interpolation method is used which is adaptive
+A 2D interpolation method "RBF" is used which is adaptive
 so the calibration points can be randomly sampled.
 You dont neccessary need to sample e.g. complete 5x5 grid 
 over the hotbed.
