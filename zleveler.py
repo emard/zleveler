@@ -107,7 +107,7 @@ with open(outfilename, "w") as f:
                if ";LAYER:" in line:
                     layer = int(line[7:])
                
-               g = getValue(line, "X", None)
+               g = getValue(line, "G", None)
                if g >= 0 and g <= 1 and layer < toLayer:
                        x = getValue(line, "X", y)
                        y = getValue(line, "Y", y)
