@@ -81,7 +81,9 @@ easily obtainable:
 
 # Disclaimer
 
-I haven't tried to use it on real 3D printer yet.
+This code may have bugs and produce g-codes which lead to hardware error.
+Be extra careful and always graphically preview generated g-code in 
+e.g. repetierhost slice by slice before sending them to the machine.
 
 # Todo
 
