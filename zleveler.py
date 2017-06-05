@@ -109,7 +109,7 @@ with open(outfilename, "w") as f:
                
                g = getValue(line, "G", None)
                if g >= 0 and g <= 1 and layer < toLayer:
-                       x = getValue(line, "X", y)
+                       x = getValue(line, "X", x)
                        y = getValue(line, "Y", y)
                        z = getValue(line, "Z", z) 
                        e = getValue(line, "E", e)        
