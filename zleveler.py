@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #Name: ZLeveler
 #Info: Postprocess adjustment of Z-level for CuraEngine g-code
 #Depend: GCode
@@ -25,8 +25,8 @@ zScale = 1
 startEffect = 0
 
 def plugin_standalone_usage(myName):
- print "Usage:"
- print "  "+myName+" -n layers_to_adjust -f input_gcode_file -z zlevel_file -o output_gcode_file"
+ print("Usage:")
+ print("  "+myName+" -n layers_to_adjust -f input_gcode_file -z zlevel_file -o output_gcode_file")
  sys.exit()
 
 try:
@@ -57,7 +57,7 @@ def getValue(line, key, default = None):
        if not key in line or (';' in line and line.find(key) > line.find(';')):
                return default
        subPart = line[line.find(key) + 1:]
-       m = re.search('^[0-9]+\.?[0-9]*', subPart)
+       m = re.search('^[-]?[0-9]+\.?[0-9]*', subPart)
        if m == None:
                return default
        try:
@@ -79,6 +79,7 @@ for xyzline in xyzlines:
        if x != None and y != None and z != None:
          xyzlevel.append({'X': x, 'Y': y, 'Z': z})
 
+print(xyzlevel)
 ax = numpy.empty(len(xyzlevel))
 ay = numpy.empty(len(xyzlevel))
 az = numpy.empty(len(xyzlevel))
@@ -90,8 +91,9 @@ for p in xyzlevel:
   i = i + 1
 
 # from xyz points, create z-interpolation function
+print(ax, ay, az)
 zi = scipy.interpolate.Rbf(ax,ay,az, epsilon=2)
-# print(zi(50, 50))
+print(zi(50, 50))
 
 x = 0
 y = 0
@@ -108,11 +110,11 @@ with open(outfilename, "w") as f:
                     layer = int(line[7:])
                
                g = getValue(line, "G", None)
-               if g >= 0 and g <= 1 and layer < toLayer:
+               if g != None and g > -0.1 and g < 1.1 and layer < toLayer:
                        x = getValue(line, "X", x)
                        y = getValue(line, "Y", y)
                        z = getValue(line, "Z", z) 
-                       e = getValue(line, "E", e)        
+                       e = getValue(line, "E", None)
                        v = getValue(line, "F", None)
                        
                        newZ = z + zi(x,y)
@@ -123,7 +125,7 @@ with open(outfilename, "w") as f:
                        f.write("X%0.3f " %(x))
                        f.write("Y%0.3f " %(y))
                        f.write("Z%0.3f " %(newZ))
-                       f.write("E%0.5f " %(e))
+                       if e: f.write("E%0.5f " %(e))
                        if v: f.write("F%0.1f " %(v))
                        f.write("\n")
                        
