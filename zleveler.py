@@ -28,14 +28,14 @@ startEffect = 0
 
 def plugin_standalone_usage(myName):
  print("Usage:")
- print("  "+myName+" -n layers_to_adjust -f input_gcode_file -z zlevel_file -o output_gcode_file")
+ print("  "+myName+" -n layers_to_adjust -v 1 -z constant_offset -f input_gcode_file -l zlevel_file -o output_gcode_file")
  sys.exit()
 
 try:
  filename
 except NameError:
  # Then we are called from the command line (not from cura)
- opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:f:z:o',['tolayer=','view=','inputfile=', 'zlevelfile=' 'outputfile='])
+ opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:f:l:o',['tolayer=','view=','zoffset=','inputfile=', 'levelfile=' 'outputfile='])
 
  toLayer = 6;
 
@@ -43,15 +43,18 @@ except NameError:
  zlevelfile="zlevel.xyz"
  outfilename="output.g"
  view=0
+ zoffset=0.0
 
  for o,p in opts:
   if o in ['-n','--tolayer']:
    toLayer = int(p)
   elif o in ['-v','--view']:
    view = int(p)
+  elif o in ['-z','--zoffset']:
+   zoffset = float(p)
   elif o in ['-f','--inputfile']:
    filename = p
-  elif o in ['-z','--zlevelfile']:
+  elif o in ['-l','--levelfile']:
    zlevelfile = p
   elif o in ['-o','--outputfile']:
    outfilename = p
@@ -128,7 +131,7 @@ with open(outfilename, "w") as f:
                     layer = int(line[7:])
                
                g = getValue(line, "G", None)
-               if g != None and g > -0.1 and g < 1.1 and layer < toLayer:
+               if g != None and g > -0.1 and g < 1.1 and (layer < toLayer or zoffset != 0.0):
                        x = getValue(line, "X", x)
                        y = getValue(line, "Y", y)
                        z = getValue(line, "Z", z) 
@@ -136,8 +139,12 @@ with open(outfilename, "w") as f:
                        v = getValue(line, "F", None)
                        
                        # apply adjustment, linearly reduced with layers
-                       newZ = z + zi(x,y) * (toLayer-layer)/toLayer;
-                       
+                       zlevel = 0.0
+                       if layer < toLayer:
+                         zlevel = zi(x,y) * (toLayer-layer)/toLayer
+                         
+                       newZ = z + zoffset + zlevel
+
                        # todo: split one long G line into many short ones
 
                        f.write("G%d " %(g))

@@ -79,5 +79,5 @@ I haven't tried to use it on real 3D printer yet.
 # Todo
 
     [ ] Split long g-code into shoreter ones
-    [ ] Option for global z-offset
+    [x] Option for global z-offset
     [x] Plot surface with matplotlib
