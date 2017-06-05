@@ -10,8 +10,8 @@ Written in python
 
 # Calibration file
 
-Negative values describe 'valleys' (nozzle to far from surface).
-Positive values describe 'hills' (nozzle to close to surface).
+Negative values describe 'valleys' (nozzle too far from surface).
+Positive values describe 'hills' (nozzle too close to surface).
 Units are in mm.
 
 Normal file should consist of mostly negative Z values.
