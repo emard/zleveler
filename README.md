@@ -66,6 +66,12 @@ Example of complete file:
     X75  Y100 Z-0.1
     X100 Y100 Z-0.2
 
+Graphical view:
+
+    ./zleveler.py --view=1 test.g
+
+![ZLEVEL](/pic/zlevel.png)
+
 # Disclaimer
 
 I haven't tried to use it on real 3D printer yet.
