@@ -74,5 +74,4 @@ I haven't tried to use it on real 3D printer yet.
 
     [ ] Split long g-code into shoreter ones
     [ ] Option for global z-offset
-    [ ] Plot surface with matplotlib
-        https://docs.scipy.org/doc/scipy/reference/tutorial/interpolate.html
+    [x] Plot surface with matplotlib

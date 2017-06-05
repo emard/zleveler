@@ -16,6 +16,8 @@ import numpy
 import scipy
 import scipy.spatial
 import scipy.interpolate
+import matplotlib
+import matplotlib.pyplot
 
 import inspect
 import sys
@@ -33,17 +35,20 @@ try:
  filename
 except NameError:
  # Then we are called from the command line (not from cura)
- opts, extraparams = getopt.getopt(sys.argv[1:],'n:f:z:o',['tolayer=','inputfile=', 'zlevelfile=' 'outputfile='])
+ opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:f:z:o',['tolayer=','view=','inputfile=', 'zlevelfile=' 'outputfile='])
 
  toLayer = 6;
 
  filename="test.g"
  zlevelfile="zlevel.xyz"
  outfilename="output.g"
+ view=0
 
  for o,p in opts:
   if o in ['-n','--tolayer']:
    toLayer = int(p)
+  elif o in ['-v','--view']:
+   view = int(p)
   elif o in ['-f','--inputfile']:
    filename = p
   elif o in ['-z','--zlevelfile']:
@@ -79,7 +84,7 @@ for xyzline in xyzlines:
        if x != None and y != None and z != None:
          xyzlevel.append({'X': x, 'Y': y, 'Z': z})
 
-print(xyzlevel)
+# print(xyzlevel)
 ax = numpy.empty(len(xyzlevel))
 ay = numpy.empty(len(xyzlevel))
 az = numpy.empty(len(xyzlevel))
@@ -91,9 +96,22 @@ for p in xyzlevel:
   i = i + 1
 
 # from xyz points, create z-interpolation function
-print(ax, ay, az)
+# print(ax, ay, az)
 zi = scipy.interpolate.Rbf(ax,ay,az, epsilon=2)
-print(zi(50, 50))
+
+if view:
+  # print(zi(50, 50))
+  xrange = numpy.linspace(min(ax), max(ax), 100)
+  yrange = numpy.linspace(min(ay), max(ay), 100)
+  XI, YI = numpy.meshgrid(xrange, yrange)
+  ZI = zi(XI, YI)
+  matplotlib.pyplot.subplot(1,1,1)
+  matplotlib.pyplot.pcolor(XI, YI, ZI, cmap=matplotlib.cm.jet)
+  matplotlib.pyplot.title('RBF interpolation - multiquadrics')
+  matplotlib.pyplot.colorbar()
+  matplotlib.pyplot.show()
+
+
 
 x = 0
 y = 0
