@@ -79,6 +79,8 @@ easily obtainable:
 
     apt-get install python3-numpy python3-scipy python3-matplotlib
 
+Works with Python2 or Python3.
+
 # Disclaimer
 
 This code may have bugs and produce g-codes which lead to hardware error.
@@ -87,6 +89,6 @@ e.g. repetierhost slice by slice before sending them to the machine.
 
 # Todo
 
-    [ ] Split long g-code into shoreter ones
+    [ ] Split long g-code into shorter ones
     [x] Option for global z-offset
     [x] Plot surface with matplotlib
