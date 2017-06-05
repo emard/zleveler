@@ -72,6 +72,13 @@ Graphical view:
 
 ![ZLEVEL](/pic/zlevel.png)
 
+# Install dependencies
+
+There are not many dependencies, and they are hopfully
+easily obtainable:
+
+    apt-get install python3-numpy python3-scipy python3-matplotlib
+
 # Disclaimer
 
 I haven't tried to use it on real 3D printer yet.
