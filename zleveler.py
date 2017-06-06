@@ -3,12 +3,13 @@
 #Info: Postprocess adjustment of Z-level for CuraEngine g-code
 #Depend: GCode
 #Type: postprocess
-#Param: difference(float:15) Wave difference / amplitude(mm)
-#Param: waves(float:4) Total waves
-#Param: fromLayer(float:4) Start effect from (layer nr)
-#Param: layerheight(float:0.2) Layerheight
-#Param: centerX(float:102.5) Center of function X(mm)
-#Param: centerY(float:102.5) Center of function Y(mm)
+#Param: zoffset(float:0.0) Global z-adjustment (mm)
+#Param: tolayer(int:6) Adjust first n (layer nr)
+#Param: xymax(float:10.0) Max xy travel, larger move splits (mm)
+#Param: inputfile(string:"input.gcode") input g-code file
+#Param: zlevelfile(string:"~/.zlevel.xyz") zlevel xyz matrix
+#Param: outputfile(string:"output.gcode") output g-code file
+#Param: view(int:0) View of zlevelfile
 
 
 import re, math
@@ -29,7 +30,7 @@ startEffect = 0
 
 def plugin_standalone_usage(myName):
  print("Usage:")
- print("  "+myName+" -n layers_to_adjust -v 1 -z constant_offset -f input_gcode_file -l zlevel_file -o output_gcode_file")
+ print("  "+myName+" -n layers_to_adjust -v 1 -z constant_offset -x max_xy_until_split -f input_gcode_file -l zlevel_file -o output_gcode_file")
  sys.exit()
 
 try:
@@ -40,9 +41,9 @@ except NameError:
 
  toLayer = 6;
 
- filename="test.g"
+ filename="input.gcode"
  zlevelfile="~/.zlevel.xyz"
- outfilename="output.g"
+ outfilename="output.gcode"
  view=0
  zoffset=0.0
  xymax=10.0
