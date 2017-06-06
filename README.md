@@ -68,7 +68,7 @@ Example of complete file:
 
 Graphical view:
 
-    ./zleveler.py --view=1 test.g
+    ./zleveler.py -v1
 
 ![ZLEVEL](/pic/zlevel.png)
 
@@ -90,5 +90,5 @@ e.g. repetierhost slice by slice before sending them to the machine.
 # Todo
 
     [ ] Split long g-code into shorter ones
-    [x] Option for global z-offset
-    [x] Plot surface with matplotlib
+    [x] Option for global z-offset --zoffset=-0.5
+    [x] Plot surface with matplotlib -v1
