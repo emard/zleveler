@@ -107,17 +107,6 @@ for p in xyzlevel:
 # print(ax, ay, az)
 zi = scipy.interpolate.Rbf(ax,ay,az, epsilon=2)
 
-if view:
-  # print(zi(50, 50))
-  xrange = numpy.linspace(min(ax), max(ax), 100)
-  yrange = numpy.linspace(min(ay), max(ay), 100)
-  XI, YI = numpy.meshgrid(xrange, yrange)
-  ZI = zi(XI, YI)
-  matplotlib.pyplot.subplot(1,1,1)
-  matplotlib.pyplot.pcolor(XI, YI, ZI, cmap=matplotlib.cm.jet)
-  matplotlib.pyplot.title('RBF interpolation - multiquadrics')
-  matplotlib.pyplot.colorbar()
-  matplotlib.pyplot.show()
 
 
 
@@ -185,3 +174,15 @@ with open(os.path.expanduser(outputfile), "w") as f:
                else:
                        f.write(line)
                
+
+if view:
+  # print(zi(50, 50))
+  xrange = numpy.linspace(min(ax), max(ax), 100)
+  yrange = numpy.linspace(min(ay), max(ay), 100)
+  XI, YI = numpy.meshgrid(xrange, yrange)
+  ZI = zi(XI, YI)
+  matplotlib.pyplot.subplot(1,1,1)
+  matplotlib.pyplot.pcolor(XI, YI, ZI, cmap=matplotlib.cm.jet)
+  matplotlib.pyplot.title('RBF interpolation - multiquadrics')
+  matplotlib.pyplot.colorbar()
+  matplotlib.pyplot.show()
