@@ -80,15 +80,16 @@ easily obtainable:
     apt-get install python3-numpy python3-scipy python3-matplotlib
 
 Works with Python2 or Python3.
-Copy python executable to any command search path
+Copy zleveler.py to any command search path
 
+    chmod +x zleveler.py
     cp zleveler.py /usr/local/bin
 
 Open repetierhost, select curaengine slicer.
 Printer Settings->Advanced->Post Slice FIlter
-enter in the input box:
+enter in the input box example:
 
-    [zleveler.py --inputfile=#in --outputfile=#out]
+    [zleveler.py --zoffset=-0.05 --inputfile=#in --outputfile=#out --view=0 --zoffset=-0.05]
     [x] Run Filter after every Slice
 
 # Disclaimer
