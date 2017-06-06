@@ -87,6 +87,9 @@ This code may have bugs and produce g-codes which lead to hardware error.
 Be extra careful and always graphically preview generated g-code in 
 e.g. repetierhost slice by slice before sending them to the machine.
 
+It currently supports only absolute G code.
+Relative G-code will be converted wrong and can damage the machine.
+
 # Todo
 
     [ ] Split long g-code into shorter ones
