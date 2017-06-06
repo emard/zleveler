@@ -34,16 +34,16 @@ def plugin_standalone_usage(myName):
  sys.exit()
 
 try:
- filename
+ inputfile
 except NameError:
  # Then we are called from the command line (not from cura)
  opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:x:f:l:o',['tolayer=','view=','zoffset=','xymax=','inputfile=', 'levelfile=' 'outputfile='])
 
  toLayer = 6;
 
- filename="input.gcode"
+ inputfile="input.gcode"
  zlevelfile="~/.zlevel.xyz"
- outfilename="output.gcode"
+ outputfile="output.gcode"
  view=0
  zoffset=0.0
  xymax=10.0
@@ -58,12 +58,12 @@ except NameError:
   elif o in ['-x','--xymax']:
    xymax = float(p)
   elif o in ['-f','--inputfile']:
-   filename = p
+   inputfile = p
   elif o in ['-l','--levelfile']:
    zlevelfile = p
   elif o in ['-o','--outputfile']:
-   outfilename = p
- if not filename:
+   outputfile = p
+ if not inputfile:
   plugin_standalone_usage(inspect.stack()[0][1])
 
 def getValue(line, key, default = None):
@@ -78,7 +78,7 @@ def getValue(line, key, default = None):
        except:
                return default
 
-with open(os.path.expanduser(filename), "r") as f:
+with open(os.path.expanduser(inputfile), "r") as f:
        lines = f.readlines()
 
 with open(os.path.expanduser(zlevelfile), "r") as f:
@@ -130,7 +130,7 @@ absolute_mode = 0
 
 layer = 0
 
-with open(os.path.expanduser(outfilename), "w") as f:
+with open(os.path.expanduser(outputfile), "w") as f:
 
        for line in lines:
                if ";LAYER:" in line:
