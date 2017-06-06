@@ -37,7 +37,7 @@ try:
  inputfile
 except NameError:
  # Then we are called from the command line (not from cura)
- opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:x:f:l:o',['tolayer=','view=','zoffset=','xymax=','inputfile=', 'levelfile=' 'outputfile='])
+ opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:x:i:l:o',['tolayer=','view=','zoffset=','xymax=','inputfile=','levelfile=','outputfile='])
 
  toLayer = 6;
 
@@ -57,7 +57,7 @@ except NameError:
    zoffset = float(p)
   elif o in ['-x','--xymax']:
    xymax = float(p)
-  elif o in ['-f','--inputfile']:
+  elif o in ['-i','--inputfile']:
    inputfile = p
   elif o in ['-l','--levelfile']:
    zlevelfile = p

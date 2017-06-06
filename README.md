@@ -34,7 +34,7 @@ a line:
 
 Example of complete file:
 
-    zlevel.xyz
+    cat ~/.zlevel.xyz
 
     X0   Y0   Z-0.1
     X25  Y0   Z-0.2
@@ -72,7 +72,7 @@ Graphical view:
 
 ![ZLEVEL](/pic/zlevel.png)
 
-# Install dependencies
+# Install
 
 There are not many dependencies, and they are hopfully
 easily obtainable:
@@ -80,6 +80,16 @@ easily obtainable:
     apt-get install python3-numpy python3-scipy python3-matplotlib
 
 Works with Python2 or Python3.
+Copy python executable to any command search path
+
+    cp zleveler.py /usr/local/bin
+
+Open repetierhost, select curaengine slicer.
+Printer Settings->Advanced->Post Slice FIlter
+enter in the input box:
+
+    [zleveler.py --inputfile=#in --outputfile=#out]
+    [x] Run Filter after every Slice
 
 # Disclaimer
 
