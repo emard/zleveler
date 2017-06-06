@@ -89,7 +89,7 @@ Open repetierhost, select curaengine slicer.
 Printer Settings->Advanced->Post Slice FIlter
 enter in the input box example:
 
-    [zleveler.py --zoffset=-0.05 --inputfile=#in --outputfile=#out --view=0 --zoffset=-0.05]
+    [zleveler.py --inputfile=#in --outputfile=#out --view=0 --zoffset=-0.05]
     [x] Run Filter after every Slice
 
 # Disclaimer
