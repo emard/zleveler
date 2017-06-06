@@ -22,6 +22,7 @@ import matplotlib.pyplot
 import inspect
 import sys
 import getopt
+import os.path
 
 zScale = 1
 startEffect = 0
@@ -40,7 +41,7 @@ except NameError:
  toLayer = 6;
 
  filename="test.g"
- zlevelfile="zlevel.xyz"
+ zlevelfile="~/.zlevel.xyz"
  outfilename="output.g"
  view=0
  zoffset=0.0
@@ -76,10 +77,10 @@ def getValue(line, key, default = None):
        except:
                return default
 
-with open(filename, "r") as f:
+with open(os.path.expanduser(filename), "r") as f:
        lines = f.readlines()
 
-with open(zlevelfile, "r") as f:
+with open(os.path.expanduser(zlevelfile), "r") as f:
        xyzlines = f.readlines()
 
 xyzlevel = []
@@ -128,7 +129,7 @@ absolute_mode = 0
 
 layer = 0
 
-with open(outfilename, "w") as f:
+with open(os.path.expanduser(outfilename), "w") as f:
 
        for line in lines:
                if ";LAYER:" in line:
