@@ -1,6 +1,6 @@
 # ZLeveler
 
-Postprocess 3D printer G-Code output from Cura engine
+Postprocess 3D printer G-Code output from Cura engine,
 adjusting hotbed uneveness in Z-axis.
 
 Adjustment of z-axis can be done manually
