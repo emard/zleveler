@@ -35,7 +35,7 @@ try:
  filename
 except NameError:
  # Then we are called from the command line (not from cura)
- opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:f:l:o',['tolayer=','view=','zoffset=','inputfile=', 'levelfile=' 'outputfile='])
+ opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:x:f:l:o',['tolayer=','view=','zoffset=','xymax=','inputfile=', 'levelfile=' 'outputfile='])
 
  toLayer = 6;
 
@@ -44,6 +44,7 @@ except NameError:
  outfilename="output.g"
  view=0
  zoffset=0.0
+ xymax=10.0
 
  for o,p in opts:
   if o in ['-n','--tolayer']:
@@ -52,6 +53,8 @@ except NameError:
    view = int(p)
   elif o in ['-z','--zoffset']:
    zoffset = float(p)
+  elif o in ['-x','--xymax']:
+   xymax = float(p)
   elif o in ['-f','--inputfile']:
    filename = p
   elif o in ['-l','--levelfile']:
@@ -121,6 +124,7 @@ y = 0
 z = zi(x,y)
 e = 0
 v = 0
+absolute_mode = 0
 
 layer = 0
 
@@ -131,29 +135,50 @@ with open(outfilename, "w") as f:
                     layer = int(line[7:])
                
                g = getValue(line, "G", None)
-               if g != None and g > -0.1 and g < 1.1 and (layer < toLayer or zoffset != 0.0):
-                       x = getValue(line, "X", x)
-                       y = getValue(line, "Y", y)
-                       z = getValue(line, "Z", z) 
-                       e = getValue(line, "E", None)
+               if g != None and g > 89.9 and g < 90.1:
+                 absolute_mode = 1
+               if g != None and g > 90.9 and g < 91.1:
+                 absolute_mode = 0
+               
+               if g != None and g > -0.1 and g < 1.1 and (layer < toLayer or zoffset != 0.0) and absolute_mode > 0:
+                       cur_x = getValue(line, "X", x)
+                       cur_y = getValue(line, "Y", y)
+                       cur_e = getValue(line, "E", e)
+                       dx = cur_x - x
+                       dy = cur_y - y
+                       de = cur_e - e
+                       z = getValue(line, "Z", z)
                        v = getValue(line, "F", None)
-                       
                        # apply adjustment, linearly reduced with layers
-                       zlevel = 0.0
-                       if layer < toLayer:
-                         zlevel = zi(x,y) * (toLayer-layer)/toLayer
-                         
-                       newZ = z + zoffset + zlevel
 
                        # todo: split one long G line into many short ones
+                       xytravel = math.sqrt(dx*dx + dy*dy)
+                       nsegments = 1
+                       if xytravel > xymax and layer < toLayer:
+                         nsegments = 1+int(xytravel / xymax)
+                         f.write((";LINE SPLIT %d SEGMENTS"%(nsegments))+"\n")
 
-                       f.write("G%d " %(g))
-                       f.write("X%0.3f " %(x))
-                       f.write("Y%0.3f " %(y))
-                       f.write("Z%0.3f " %(newZ))
-                       if e: f.write("E%0.5f " %(e))
-                       if v: f.write("F%0.1f " %(v))
-                       f.write("\n")
+                       advance = 1.0/nsegments
+                       for i in range(1,1+nsegments): # loop from 1 to nsegments
+                           if i < nsegments:
+                             x += dx * advance
+                             y += dy * advance
+                             e += de * advance
+                           else:
+                             x = cur_x
+                             y = cur_y
+                             e = cur_e
+                           zlevel = 0.0
+                           if layer < toLayer:
+                             zlevel = zi(x,y) * (toLayer-layer)/toLayer
+                           newZ = z + zoffset + zlevel
+                           f.write("G%d " %(g))
+                           f.write("X%0.3f " %(x))
+                           f.write("Y%0.3f " %(y))
+                           f.write("Z%0.3f " %(newZ))
+                           if e: f.write("E%0.5f " %(e))
+                           if v: f.write("F%0.1f " %(v))
+                           f.write("\n")
                        
                else:
                        f.write(line)
