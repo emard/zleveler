@@ -106,4 +106,4 @@ Relative G-code will be converted wrong and can damage the machine.
     [x] Split long g-code into shorter ones --xymax=10.0
     [x] Option for global z-offset --zoffset=-0.5
     [x] Plot surface with matplotlib -v1
-    [ ] G92 support (change origin)
+    [x] G92 support (change origin)
