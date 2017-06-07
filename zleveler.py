@@ -126,12 +126,17 @@ with open(os.path.expanduser(outputfile), "w") as f:
                     layer = int(line[7:])
                
                g = getValue(line, "G", None)
-               if g != None and g > 89.9 and g < 90.1:
+               if g != None and g > 89.999 and g < 90.001:
                  absolute_mode = 1
-               if g != None and g > 90.9 and g < 91.1:
+               if g != None and g > 90.999 and g < 91.001:
                  absolute_mode = 0
+               if g != None and g > 91.999 and g < 92.001:
+                 x = getValue(line, "X", x)
+                 y = getValue(line, "Y", y)
+                 z = getValue(line, "Z", z)
+                 e = getValue(line, "E", e)
                
-               if g != None and g > -0.1 and g < 1.1 and (layer < toLayer or zoffset != 0.0) and absolute_mode > 0:
+               if g != None and g > -0.001 and g < 1.001 and (layer < toLayer or zoffset != 0.0) and absolute_mode > 0:
                        cur_x = getValue(line, "X", x)
                        cur_y = getValue(line, "Y", y)
                        cur_e = getValue(line, "E", e)
