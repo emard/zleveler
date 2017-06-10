@@ -37,7 +37,11 @@ try:
  inputfile
 except NameError:
  # Then we are called from the command line (not from cura)
- opts, extraparams = getopt.getopt(sys.argv[1:],'n:v:z:x:i:l:o',['tolayer=','view=','zoffset=','xymax=','inputfile=','levelfile=','outputfile='])
+ opts, extraparams = getopt.getopt(
+   sys.argv[1:],
+   'n:v:z:d:t:x:i:l:o',
+   ['tolayer=','view=','zoffset=','downup=','downup_threshold=','xymax=','inputfile=','levelfile=','outputfile=']
+ )
 
  toLayer = 6;
 
@@ -46,6 +50,8 @@ except NameError:
  outputfile="output.gcode"
  view=0
  zoffset=0.0
+ downup_threshold=0.0 # start experimenting with 0.04
+ downup=0.0 # start experimenting with 0.01
  xymax=10.0
 
  for o,p in opts:
@@ -55,6 +61,10 @@ except NameError:
    view = int(p)
   elif o in ['-z','--zoffset']:
    zoffset = float(p)
+  elif o in ['-d','--downup']:
+   downup = float(p)
+  elif o in ['-t','--downup_threshold']:
+   downup_threshold = float(p)
   elif o in ['-x','--xymax']:
    xymax = float(p)
   elif o in ['-i','--inputfile']:
@@ -113,6 +123,7 @@ zi = scipy.interpolate.Rbf(ax,ay,az, epsilon=2)
 x = 0
 y = 0
 z = zi(x,y)
+newZ = z
 e = 0
 v = 0
 absolute_mode = 0
@@ -167,6 +178,7 @@ with open(os.path.expanduser(outputfile), "w") as f:
                            zlevel = 0.0
                            if layer < toLayer:
                              zlevel = zi(x,y) * (toLayer-layer)/toLayer
+                           oldZ = newZ
                            newZ = z + zoffset + zlevel
                            f.write("G%d " %(g))
                            f.write("X%0.3f " %(x))
@@ -175,7 +187,13 @@ with open(os.path.expanduser(outputfile), "w") as f:
                            if e: f.write("E%0.5f " %(e))
                            if v: f.write("F%0.1f " %(v))
                            f.write("\n")
-                       
+                           if newZ-oldZ < -downup_threshold and downup > 0.0:
+                             f.write("G%d " %(g))
+                             f.write("Z%0.3f " %(newZ-downup))
+                             f.write("\n")
+                             f.write("G%d " %(g))
+                             f.write("Z%0.3f " %(newZ))
+                             f.write("\n")
                else:
                        f.write(line)
                
