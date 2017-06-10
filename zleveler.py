@@ -39,8 +39,8 @@ except NameError:
  # Then we are called from the command line (not from cura)
  opts, extraparams = getopt.getopt(
    sys.argv[1:],
-   'n:v:z:d:t:x:i:l:o',
-   ['tolayer=','view=','zoffset=','downup=','downup_threshold=','xymax=','inputfile=','levelfile=','outputfile=']
+   'n:v:z:u:t:x:i:l:o',
+   ['tolayer=','view=','zoffset=','updown=','updown_threshold=','xymax=','inputfile=','levelfile=','outputfile=']
  )
 
  toLayer = 6;
@@ -50,8 +50,8 @@ except NameError:
  outputfile="output.gcode"
  view=0
  zoffset=0.0
- downup_threshold=0.0 # start experimenting with 0.04
- downup=0.0 # start experimenting with 0.01
+ updown_threshold=0.0 # start experimenting with -0.03
+ updown=0.0 # start experimenting with -0.07
  xymax=10.0
 
  for o,p in opts:
@@ -61,10 +61,10 @@ except NameError:
    view = int(p)
   elif o in ['-z','--zoffset']:
    zoffset = float(p)
-  elif o in ['-d','--downup']:
-   downup = float(p)
-  elif o in ['-t','--downup_threshold']:
-   downup_threshold = float(p)
+  elif o in ['-u','--updown']:
+   updown = float(p)
+  elif o in ['-t','--updown_threshold']:
+   updown_threshold = float(p)
   elif o in ['-x','--xymax']:
    xymax = float(p)
   elif o in ['-i','--inputfile']:
@@ -182,13 +182,14 @@ with open(os.path.expanduser(outputfile), "w") as f:
                            oldZ = newZ
                            newZ = z + zoffset + zlevel
                            # for up-down split segment in 2
-                           if newZ-oldZ < -downup_threshold and downup > 0.0:
-                             # first half - Z downup
-                             f.write("; DOWNUP\n");
+                           if (newZ-oldZ < updown_threshold and updown < 0.00001) \
+                           or (newZ-oldZ > updown_threshold and updown > 0.00001):
+                             # first half - Z updown
+                             f.write("; UPDOWN\n");
                              f.write("G%d " %(g))
                              f.write("X%0.3f " %(x-dx*advance*0.5))
                              f.write("Y%0.3f " %(y-dy*advance*0.5))
-                             f.write("Z%0.3f " %(newZ-downup))
+                             f.write("Z%0.3f " %(newZ+updown))
                              if e: f.write("E%0.5f " %(e-de*advance*0.5))
                              if v: f.write("F%0.1f " %(v))
                              f.write("\n")
