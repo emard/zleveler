@@ -175,11 +175,24 @@ with open(os.path.expanduser(outputfile), "w") as f:
                              x = cur_x
                              y = cur_y
                              e = cur_e
+
                            zlevel = 0.0
                            if layer < toLayer:
                              zlevel = zi(x,y) * (toLayer-layer)/toLayer
                            oldZ = newZ
                            newZ = z + zoffset + zlevel
+                           # for up-down split segment in 2
+                           if newZ-oldZ < -downup_threshold and downup > 0.0:
+                             # first half - Z downup
+                             f.write("; DOWNUP\n");
+                             f.write("G%d " %(g))
+                             f.write("X%0.3f " %(x-dx*advance*0.5))
+                             f.write("Y%0.3f " %(y-dy*advance*0.5))
+                             f.write("Z%0.3f " %(newZ-downup))
+                             if e: f.write("E%0.5f " %(e-de*advance*0.5))
+                             if v: f.write("F%0.1f " %(v))
+                             f.write("\n")
+                             # second half follows as final Z
                            f.write("G%d " %(g))
                            f.write("X%0.3f " %(x))
                            f.write("Y%0.3f " %(y))
@@ -187,13 +200,6 @@ with open(os.path.expanduser(outputfile), "w") as f:
                            if e: f.write("E%0.5f " %(e))
                            if v: f.write("F%0.1f " %(v))
                            f.write("\n")
-                           if newZ-oldZ < -downup_threshold and downup > 0.0:
-                             f.write("G%d " %(g))
-                             f.write("Z%0.3f " %(newZ-downup))
-                             f.write("\n")
-                             f.write("G%d " %(g))
-                             f.write("Z%0.3f " %(newZ))
-                             f.write("\n")
                else:
                        f.write(line)
                
