@@ -96,13 +96,17 @@ enter in the input box example:
 
      -n --tolayer=int
 
-Z-adjustment will be applied to first N layers. On each
-layer Z-adjuestmen will linearly decrease.
+Apply Z-adjustment to first N layers. On each successive
+layer Z-adjustment will decrease lineary. After Nth layer
+Z level adjuestment will not be applied because the layers
+will become completely Z-flat
 
      -v --view=int
 
-Graphical preview of the Z-adjustment values. If there's some
-mistyped value in ~/.zlevel.xyz file, it would be obvious.
+Graphical preview of the Z-adjustment values. After changing
+Z-level file it is recommended to preview it graphically 
+before sending g-code to the machine. If there's some
+extreme value in ~/.zlevel.xyz file, it would be obvious.
 
      -z --zoffset=float
 
@@ -112,17 +116,18 @@ Global Z-offset [mm] adjusts nozzle to hotbed distance.
 
 Up-down mechanical gap of Z axis [mm]. This makes an important
 workaround to let Z finish at same level when approaching from
-up or down.
-"updown" value should be normally of opposite sign Z-direction in
+either up or down.
+"updown" value should be normally of opposite sign than the Z-direction in
 which layers are built. When Z must travel in opposite direction
-of the layers, "xymax" segment will be split into two halfs
-In the first half of "xymax" segment, the Z-motor will be driven to a
-trip "below" the layer level (but because there is mechanical gap
-nozzle will stay at layer level) and then them motor is driven to the
+of the layers, "xymax" segment will be split into two halves.
+In the first half of "xymax" segment, the Z-motor is driven to a
+trip "below" the layer level. Because there is mechanical gap
+nozzle will stay at layer level. On the other half the Z-motor is driven to the
 layer level. For example, if layers go in positive Z direction, start
-with small negative value like -0.07 and watch 1st layer and gradually
-change by 0.01 more negatve values, until you see slight waves on filament
-desposted on 1st layer during correction of Z-valley on the hotbed.
+with small negative value like -0.07 and watch 1st layer. If it is too
+thich on Z-valley or detaches, gradually increase by 0.01 into more negatve values
+until you see slight waves on filament desposted on 1st layer during correction 
+of Z-valley on the hotbed.
 Be careful because having this value too large will press nozzle down into
 the hotbed.
 
