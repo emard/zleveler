@@ -141,7 +141,7 @@ be of opposite sign than Z-direction in which layers are built.
 
 When nozzle XY direction travels a distance longer than "xymax" [mm] then
 the nozzle path in G-code will be split into N smaller segments, each
-segment will be shorter than "xymax".
+segment will be shorter than "xymax". Default value 10 mm.
 
     -i --inputfile=string
 
