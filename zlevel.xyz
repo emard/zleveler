@@ -1,12 +1,16 @@
+; Printer without any sticker on top cover
+
 ; Positive Z is 'hill' on hotbed
 ; Negative Z is 'valley' on hotbed
 ; Normal Z adjustment file should have all Z negative or zero
-; Printer lsusb iSerial: 6D8610755653
-; use: --zoffset=-0.04
+
 ; PETG: 210'C/57'C speed 16mm/s
-; load 1.75mm filament but tell slicer it as 2.00 mm
+; load 1.75mm filament but tell slicer it is 2.00 mm
 ; effectively it will reduce flow rate to 75% of nominal
 ; 1st layer: width: 200%, speed 4mm/s
+; RepetierHost->Printer Settings->Advanced
+; zleveler.py --inputfile=#in --outputfile=#out
+; --updown_threshold=-0.01 --updown=-0.08 --zoffset=-0.04
 
 X0   Y0   Z-0.20
 X10  Y0   Z-0.10
@@ -83,10 +87,10 @@ X100 Y50  Z-0.25
 X0   Y60  Z-0.25
 X10  Y60  Z-0.25
 X20  Y60  Z-0.15
-X30  Y60  Z-0.14
+X30  Y60  Z-0.12
 X40  Y60  Z-0.10
 X50  Y60  Z-0.10
-X60  Y60  Z-0.15
+X60  Y60  Z-0.11
 X70  Y60  Z-0.15
 X80  Y60  Z-0.20
 X90  Y60  Z-0.25
