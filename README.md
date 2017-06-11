@@ -92,6 +92,65 @@ enter in the input box example:
     [zleveler.py --inputfile=#in --outputfile=#out --view=0 --updown_threshold=-0.03 --updown=-0.07 --zoffset=-0.03]
     [x] Run Filter after every Slice
 
+# Options
+
+     -n --tolayer=int
+
+Z-adjustment will be applied to first N layers. On each
+layer Z-adjuestmen will linearly decrease.
+
+     -v --view=int
+
+Graphical preview of the Z-adjustment values. If there's some
+mistyped value in ~/.zlevel.xyz file, it would be obvious.
+
+     -z --zoffset=float
+
+Global Z-offset [mm] adjusts nozzle to hotbed distance.
+
+     -u --updown=float
+
+Up-down mechanical gap of Z axis [mm]. This makes an important
+workaround to let Z finish at same level when approaching from
+up or down.
+"updown" value should be normally of opposite sign Z-direction in
+which layers are built. When Z must travel in opposite direction
+of the layers, "xymax" segment will be split into two halfs
+In the first half of "xymax" segment, the Z-motor will be driven to a
+trip "below" the layer level (but because there is mechanical gap
+nozzle will stay at layer level) and then them motor is driven to the
+layer level. For example, if layers go in positive Z direction, start
+with small negative value like -0.07 and watch 1st layer and gradually
+change by 0.01 more negatve values, until you see slight waves on filament
+desposted on 1st layer during correction of Z-valley on the hotbed.
+Be careful because having this value too large will press nozzle down into
+the hotbed.
+
+    -t --updown_threshold=float
+
+When Z-travel during a "xymax" segment is larger than this threshold value
+[mm] then Z-downup correction will be applied. This value should normally
+be of opposite sign than Z-direction in which layers are built.
+
+    -x --xymax=float
+
+When nozzle XY direction travels a distance longer than "xymax" [mm] then
+the nozzle path in G-code will be split into N smaller segments, each
+segment will be shorter than "xymax".
+
+    -i --inputfile=string
+
+Input G-code file without Z-axis correction. Currently files from curaengine are known to work.
+Default is "input.gcode"
+
+    -l --levelfile=string
+
+Z-level file. Default is "~/.zlevel.xyz"
+
+    -o --outputfile=string
+
+Output G-code with Z-axis correction. Default is "output.gcode"
+
 # Disclaimer
 
 This code may have bugs and produce g-codes which lead to hardware error.
