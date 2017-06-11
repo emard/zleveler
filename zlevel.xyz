@@ -7,6 +7,7 @@
 ; PETG: 210'C/57'C speed 16mm/s
 ; load 1.75mm filament but tell slicer it is 2.00 mm
 ; effectively it will reduce flow rate to 75% of nominal
+; Layer height: 0.3mm
 ; 1st layer: width: 200%, speed 4mm/s
 ; RepetierHost->Printer Settings->Advanced
 ; zleveler.py --inputfile=#in --outputfile=#out
