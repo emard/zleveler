@@ -124,10 +124,10 @@ In the first half of "xymax" segment, the Z-motor is driven to a
 trip "below" the layer level. Because there is mechanical gap
 nozzle will stay at layer level. On the other half the Z-motor is driven to the
 layer level. For example, if layers go in positive Z direction, start
-with small negative value like -0.07 and watch 1st layer. If it is too
-thich on Z-valley or detaches, gradually increase by 0.01 into more negatve values
-until you see slight waves on filament desposted on 1st layer during correction 
-of Z-valley on the hotbed.
+with small negative value like -0.07 and watch 1st layer. If filament is
+applied too thick on Z-valley or detaches, gradually increase by 0.01 
+into more negatve values until you see slight waves on filament desposted 
+on 1st layer during correction of Z-valley on the hotbed.
 Be careful because having this value too large will press nozzle down into
 the hotbed.
 
