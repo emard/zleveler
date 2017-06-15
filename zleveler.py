@@ -40,10 +40,11 @@ except NameError:
  opts, extraparams = getopt.getopt(
    sys.argv[1:],
    'n:v:z:u:t:x:i:l:o',
-   ['tolayer=','view=','zoffset=','updown=','updown_threshold=','xymax=','inputfile=','levelfile=','outputfile=']
+   ['toz=','view=','zoffset=','updown=','updown_threshold=','xymax=','inputfile=','levelfile=','outputfile=']
  )
 
  toLayer = 6;
+ toZ = 2.0; # correct first 2 mm
 
  inputfile="-"
  zlevelfile="~/.zlevel.xyz"
@@ -55,8 +56,8 @@ except NameError:
  xymax=10.0
 
  for o,p in opts:
-  if o in ['-n','--tolayer']:
-   toLayer = int(p)
+  if o in ['-n','--toz']:
+   toZ = float(p)
   elif o in ['-v','--view']:
    view = int(p)
   elif o in ['-z','--zoffset']:
@@ -156,7 +157,7 @@ with output_fd as f:
                  z = getValue(line, "Z", z)
                  e = getValue(line, "E", e)
                
-               if g != None and g > -0.001 and g < 1.001 and (layer < toLayer or zoffset != 0.0) and absolute_mode > 0:
+               if g != None and g > -0.001 and g < 1.001 and (z < toZ or zoffset != 0.0) and absolute_mode > 0:
                        cur_x = getValue(line, "X", x)
                        cur_y = getValue(line, "Y", y)
                        cur_e = getValue(line, "E", e)
@@ -170,7 +171,7 @@ with output_fd as f:
                        # todo: split one long G line into many short ones
                        xytravel = math.sqrt(dx*dx + dy*dy)
                        nsegments = 1
-                       if xytravel > xymax and layer < toLayer:
+                       if xytravel > xymax and z < toZ:
                          nsegments = 1+int(xytravel / xymax)
                          f.write((";LINE SPLIT %d SEGMENTS"%(nsegments))+"\n")
 
@@ -186,8 +187,8 @@ with output_fd as f:
                              e = cur_e
 
                            zlevel = 0.0
-                           if layer < toLayer:
-                             zlevel = zi(x,y) * (toLayer-layer)/toLayer
+                           if z < toZ:
+                             zlevel = zi(x,y) * (toZ-z)/toZ
                            oldZ = newZ
                            newZ = z + zoffset + zlevel
                            # for up-down split segment in 2

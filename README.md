@@ -1,6 +1,6 @@
 # ZLeveler
 
-Postprocess 3D printer G-Code output from Cura engine,
+Postprocess 3D printer G-Code output from Cura or Slic3r,
 adjusting hotbed uneveness in Z-axis.
 
 Adjustment of z-axis can be done manually
@@ -85,21 +85,21 @@ Copy zleveler.py to any command search path
     chmod +x zleveler.py
     cp zleveler.py /usr/local/bin
 
-Open repetierhost, select curaengine slicer.
+Open repetierhost, select "curaengine" or "slic3r" slicer.
 Printer Settings->Advanced->Post Slice FIlter
 enter in the input box example:
 
-    [zleveler.py --inputfile=#in --outputfile=#out --view=0 --updown_threshold=-0.03 --updown=-0.07 --zoffset=-0.03]
+    [zleveler.py --inputfile=#in --outputfile=#out --view=0 --updown_threshold=-0.001 --updown=-0.10 --zoffset=-0.03]
     [x] Run Filter after every Slice
 
 # Options
 
-     -n --tolayer=int
+     -n --toz=float
 
-Apply Z-adjustment to first N layers. On each successive
-layer Z-adjustment will decrease lineary. After Nth layer
-Z level adjuestment will not be applied because the layers
-will become completely Z-flat
+Apply Z-adjustment up to "toz" height [mm]. On each successive
+layer Z-adjustment will decrease lineary. After "toz" height,
+Z-adjuestment will not be applied because the layers
+will become completely Z-flat.
 
      -v --view=int
 
@@ -146,7 +146,7 @@ segment will be shorter than "xymax". Default value 10 mm.
     -i --inputfile=string
 
 Input G-code file without Z-axis correction. Currently files from curaengine are known to work.
-Default is "input.gcode"
+Default is "-" as stdin.
 
     -l --levelfile=string
 
@@ -154,7 +154,7 @@ Z-level file. Default is "~/.zlevel.xyz"
 
     -o --outputfile=string
 
-Output G-code with Z-axis correction. Default is "output.gcode"
+Output G-code with Z-axis correction. Default is "-" as stdout.
 
 # Disclaimer
 
@@ -173,5 +173,5 @@ Relative G-code will be converted wrong and can damage the machine.
     [x] G92 support (change origin)
     [ ] introduce xymin, don't half short segments
         but rather alternate them
-    [ ] default function as stdin/stdout filter
-    [ ] slic3r support (--tolayer -> --toz)
+    [x] default function as stdin/stdout filter
+    [x] slic3r support (--tolayer -> --toz)
