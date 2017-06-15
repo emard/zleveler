@@ -45,9 +45,9 @@ except NameError:
 
  toLayer = 6;
 
- inputfile="input.gcode"
+ inputfile="-"
  zlevelfile="~/.zlevel.xyz"
- outputfile="output.gcode"
+ outputfile="-"
  view=0
  zoffset=0.0
  updown_threshold=0.0 # start experimenting with -0.03
@@ -88,8 +88,13 @@ def getValue(line, key, default = None):
        except:
                return default
 
-with open(os.path.expanduser(inputfile), "r") as f:
-       lines = f.readlines()
+if inputfile == "-":
+  input_fd = sys.stdin
+else:
+  input_fd = open(os.path.expanduser(inputfile), "r")
+
+with input_fd as f:
+  lines = f.readlines()
 
 with open(os.path.expanduser(zlevelfile), "r") as f:
        xyzlines = f.readlines()
@@ -130,8 +135,12 @@ absolute_mode = 0
 
 layer = 0
 
-with open(os.path.expanduser(outputfile), "w") as f:
+if outputfile == "-":
+  output_fd = sys.stdout
+else:
+  output_fd = open(os.path.expanduser(outputfile), "w")
 
+with output_fd as f:
        for line in lines:
                if ";LAYER:" in line:
                     layer = int(line[7:])

@@ -173,3 +173,5 @@ Relative G-code will be converted wrong and can damage the machine.
     [x] G92 support (change origin)
     [ ] introduce xymin, don't half short segments
         but rather alternate them
+    [ ] default function as stdin/stdout filter
+    [ ] slic3r support (--tolayer -> --toz)
