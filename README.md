@@ -171,3 +171,5 @@ Relative G-code will be converted wrong and can damage the machine.
     [x] Option for global z-offset --zoffset=-0.5
     [x] Plot surface with matplotlib -v1
     [x] G92 support (change origin)
+    [ ] introduce xymin, don't half short segments
+        but rather alternate them
