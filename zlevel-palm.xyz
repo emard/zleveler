@@ -1,30 +1,27 @@
 ; Printer with palm tree sticker on top
-
 ; Positive Z is 'hill' on hotbed
 ; Negative Z is 'valley' on hotbed
 ; Normal Z adjustment file should have all Z negative or zero
+; Printer lsusb iSerial: 6D8610755653
+; Hotbed at 57 deg C
+; when started from cold, use: --zoffset=-0.03
+; when long time hot, use: --zoffset=0.03
+; xlimit=0 ylimit=100
+; xmin=0 xmax=98
+; ymin=0 ymax=100
+; xbed=-1 ybed=-3
 
-; PETG: 210'C/57'C speed 16mm/s
-; load 1.75mm filament but tell slicer it is 2.00 mm
-; effectively it will reduce flow rate to 75% of nominal
-; Layer height: 0.3mm
-; 1st layer: width: 200%, speed 4mm/s
-; RepetierHost->Printer Settings->Advanced
-; zleveler.py --inputfile=#in --outputfile=#out
-; --updown_threshold=-0.01 --updown=-0.08 --zoffset=0.06
-
-
-X0   Y0   Z-0.00
-X3   Y0   Z-0.10
-X10  Y0   Z-0.22
+X0   Y0   Z-0.10
+X5   Y0   Z-0.10
+X10  Y0   Z-0.25
 X20  Y0   Z-0.20
 X30  Y0   Z-0.18
-X40  Y0   Z-0.17
+X40  Y0   Z-0.19
 X50  Y0   Z-0.17
 X60  Y0   Z-0.20
-X70  Y0   Z-0.20
+X70  Y0   Z-0.24
 X80  Y0   Z-0.30
-X90  Y0   Z-0.34
+X90  Y0   Z-0.37
 X98  Y0   Z-0.28
 
 X0   Y10  Z-0.00
@@ -34,134 +31,137 @@ X10  Y10  Z-0.25
 X20  Y10  Z-0.22
 X30  Y10  Z-0.19
 X40  Y10  Z-0.17
-X50  Y10  Z-0.20
+X50  Y10  Z-0.19
 X60  Y10  Z-0.22
 X70  Y10  Z-0.25
-X80  Y10  Z-0.27
+X80  Y10  Z-0.29
 X90  Y10  Z-0.30
-X98  Y10  Z-0.20
+X98  Y10  Z-0.22
 
-X0   Y20  Z-0.0
-X3   Y20  Z-0.10
+X0   Y20  Z-0.07
+X3   Y20  Z-0.20
 X10  Y20  Z-0.22
 X20  Y20  Z-0.20
-X30  Y20  Z-0.17
+X30  Y20  Z-0.18
 X40  Y20  Z-0.17
 X50  Y20  Z-0.18
 X60  Y20  Z-0.17
-X70  Y20  Z-0.25
+X70  Y20  Z-0.20
 X80  Y20  Z-0.27
-X90  Y20  Z-0.25
-X98  Y20  Z-0.12
+X90  Y20  Z-0.28
+X98  Y20  Z-0.18
 
 X0   Y30  Z-0.00
 X2   Y30  Z-0.10
-X5   Y30  Z-0.15
-X10  Y30  Z-0.22
-X20  Y30  Z-0.19
-X30  Y30  Z-0.15
+X5   Y30  Z-0.18
+X10  Y30  Z-0.25
+X20  Y30  Z-0.20
+X30  Y30  Z-0.18
 X40  Y30  Z-0.15
-X50  Y30  Z-0.15
+X50  Y30  Z-0.17
 X60  Y30  Z-0.15
-X70  Y30  Z-0.20
-X80  Y30  Z-0.28
-X90  Y30  Z-0.29
+X70  Y30  Z-0.19
+X80  Y30  Z-0.25
+X90  Y30  Z-0.27
 X95  Y30  Z-0.19
-X98  Y30  Z-0.05
+X98  Y30  Z-0.09
 
 X0   Y40  Z-0.00
 X2   Y40  Z-0.10
-X5   Y40  Z-0.15
-X10  Y40  Z-0.20 
+X5   Y40  Z-0.17
+X10  Y40  Z-0.22 
 X20  Y40  Z-0.17
 X30  Y40  Z-0.15
 X40  Y40  Z-0.15
 X50  Y40  Z-0.15
 X60  Y40  Z-0.15
 X70  Y40  Z-0.15
-X80  Y40  Z-0.20
-X90  Y40  Z-0.17
-X95  Y40  Z-0.10
-X98  Y40  Z-0.00
+X80  Y40  Z-0.25
+X90  Y40  Z-0.20
+X95  Y40  Z-0.08
+X98  Y40  Z-0.07
 
 X0   Y50  Z-0.00
 X5   Y50  Z-0.15
-X10  Y50  Z-0.20
-X20  Y50  Z-0.15
-X30  Y50  Z-0.15
+X10  Y50  Z-0.22
+X20  Y50  Z-0.20
+X30  Y50  Z-0.17
 X40  Y50  Z-0.15
 X50  Y50  Z-0.15
-X60  Y50  Z-0.12
-X70  Y50  Z-0.15
-X80  Y50  Z-0.15
-X90  Y50  Z-0.25
+X60  Y50  Z-0.15
+X70  Y50  Z-0.18
+X80  Y50  Z-0.20
+X90  Y50  Z-0.20
+X95  Y50  Z-0.10
 X98  Y50  Z-0.00
 
 X0   Y60  Z-0.00
-X5   Y60  Z-0.15
-X10  Y60  Z-0.20
-X20  Y60  Z-0.15
-X30  Y60  Z-0.15
+X5   Y60  Z-0.20
+X10  Y60  Z-0.25
+X20  Y60  Z-0.22
+X30  Y60  Z-0.20
 X40  Y60  Z-0.16
 X50  Y60  Z-0.14
-X60  Y60  Z-0.15
-X70  Y60  Z-0.15
-X80  Y60  Z-0.17
-X90  Y60  Z-0.19
-X98  Y60  Z-0.05
+X60  Y60  Z-0.17
+X70  Y60  Z-0.18
+X80  Y60  Z-0.20
+X90  Y60  Z-0.20
+X95  Y60  Z-0.14
+X98  Y60  Z-0.07
 
-X0   Y70  Z-0.00
-X10  Y70  Z-0.22
-X20  Y70  Z-0.15
-X30  Y70  Z-0.15
+X0   Y70  Z-0.07
+X5   Y70  Z-0.20
+X10  Y70  Z-0.25
+X20  Y70  Z-0.22
+X30  Y70  Z-0.20
 X40  Y70  Z-0.15
-X50  Y70  Z-0.12
-X60  Y70  Z-0.15
-X70  Y70  Z-0.15
-X80  Y70  Z-0.15
-X90  Y70  Z-0.15
-X95  Y70  Z-0.10
+X50  Y70  Z-0.15
+X60  Y70  Z-0.17
+X70  Y70  Z-0.17
+X80  Y70  Z-0.22
+X90  Y70  Z-0.20
+X95  Y70  Z-0.12
 X98  Y70  Z-0.00
 
-X0   Y80  Z-0.00
-X5   Y80  Z-0.15
-X10  Y80  Z-0.20
-X20  Y80  Z-0.17
-X30  Y80  Z-0.15
+X0   Y80  Z-0.07
+X5   Y80  Z-0.20
+X10  Y80  Z-0.27
+X20  Y80  Z-0.20
+X30  Y80  Z-0.18
 X40  Y80  Z-0.15
-X50  Y80  Z-0.15
+X50  Y80  Z-0.17
 X60  Y80  Z-0.15
 X70  Y80  Z-0.15
-X80  Y80  Z-0.15
+X80  Y80  Z-0.22
 X90  Y80  Z-0.20
-X95  Y80  Z-0.10
+X95  Y80  Z-0.08
 X98  Y80  Z-0.00
 
 X0   Y90  Z-0.10
-X5   Y90  Z-0.17
-X10  Y90  Z-0.25
-X20  Y90  Z-0.20
-X30  Y90  Z-0.15
+X5   Y90  Z-0.20
+X10  Y90  Z-0.27
+X20  Y90  Z-0.25
+X30  Y90  Z-0.20
 X40  Y90  Z-0.15
-X50  Y90  Z-0.14
-X60  Y90  Z-0.12
-X70  Y90  Z-0.17
-X80  Y90  Z-0.20
-X90  Y90  Z-0.22
-X95  Y90  Z-0.12
-X98  Y90  Z-0.00
+X50  Y90  Z-0.15
+X60  Y90  Z-0.17
+X70  Y90  Z-0.18
+X80  Y90  Z-0.25
+X90  Y90  Z-0.25
+X95  Y90  Z-0.15
+X98  Y90  Z-0.07
 
 X0   Y96  Z-0.10
 X5   Y96  Z-0.19
-X10  Y96  Z-0.20
-X20  Y96  Z-0.15
-X30  Y96  Z-0.10
-X40  Y96  Z-0.10
-X50  Y96  Z-0.09
-X60  Y96  Z-0.12
-X70  Y96  Z-0.15
-X80  Y96  Z-0.16
-X90  Y96  Z-0.20
+X10  Y96  Z-0.22
+X20  Y96  Z-0.20
+X30  Y96  Z-0.17
+X40  Y96  Z-0.15
+X50  Y96  Z-0.15
+X60  Y96  Z-0.15
+X70  Y96  Z-0.17
+X80  Y96  Z-0.20
+X90  Y96  Z-0.21
 X95  Y96  Z-0.15
-X98  Y96  Z-0.00
+X98  Y96  Z-0.08
 
