@@ -133,6 +133,7 @@ newZ = z
 e = 0
 v = 0
 absolute_mode = 0
+updown_mode = 0
 
 layer = 0
 
@@ -192,8 +193,8 @@ with output_fd as f:
                            oldZ = newZ
                            newZ = z + zoffset + zlevel
                            # for up-down split segment in 2
-                           if (newZ-oldZ < updown_threshold and updown < -0.00001) \
-                           or (newZ-oldZ > updown_threshold and updown > 0.00001):
+                           if (nsegments > 1 and newZ-oldZ < updown_threshold and updown < -0.00001) \
+                           or (nsegments > 1 and newZ-oldZ > updown_threshold and updown > 0.00001):
                              # first half - Z updown
                              f.write("; UPDOWN\n");
                              f.write("G%d " %(g))
@@ -203,11 +204,21 @@ with output_fd as f:
                              if e: f.write("E%0.5f " %(e-de*advance*0.5))
                              if v: f.write("F%0.1f " %(v))
                              f.write("\n")
+                             updown_mode = 1
                              # second half follows as final Z
+                           # if single segment (xytravel < xymax) then alternate Z
+                           if (nsegments == 1 and updown_mode == 0 and newZ-oldZ < updown_threshold and updown < -0.00001) \
+                           or (nsegments == 1 and updown_mode == 0 and newZ-oldZ > updown_threshold and updown > 0.00001):
+                             alterZ = newZ+updown
+                             updown_mode = 1
+                             f.write("; ALTERNATE\n");
+                           else:
+                             alterZ = newZ
+                             updown_mode = 0
                            f.write("G%d " %(g))
                            f.write("X%0.3f " %(x))
                            f.write("Y%0.3f " %(y))
-                           f.write("Z%0.3f " %(newZ))
+                           f.write("Z%0.3f " %(alterZ))
                            if e: f.write("E%0.5f " %(e))
                            if v: f.write("F%0.1f " %(v))
                            f.write("\n")
