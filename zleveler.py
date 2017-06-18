@@ -44,7 +44,7 @@ except NameError:
  )
 
  toLayer = 6;
- toZ = 2.0; # correct first 2 mm
+ toZ = 1.0; # correct first 1 mm
 
  inputfile="-"
  zlevelfile="~/.zlevel.xyz"

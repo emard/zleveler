@@ -99,7 +99,7 @@ enter in the input box example:
 Apply Z-adjustment up to "toz" height [mm]. On each successive
 layer Z-adjustment will decrease lineary. After "toz" height,
 Z-adjuestment will not be applied because the layers
-will become completely Z-flat.
+will become completely Z-flat. Default value 1 mm.
 
      -v --view=int
 
