@@ -192,7 +192,7 @@ with output_fd as f:
                            oldZ = newZ
                            newZ = z + zoffset + zlevel
                            # for up-down split segment in 2
-                           if (newZ-oldZ < updown_threshold and updown < 0.00001) \
+                           if (newZ-oldZ < updown_threshold and updown < -0.00001) \
                            or (newZ-oldZ > updown_threshold and updown > 0.00001):
                              # first half - Z updown
                              f.write("; UPDOWN\n");
