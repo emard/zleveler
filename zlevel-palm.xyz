@@ -1,15 +1,21 @@
 ; Printer with palm tree sticker on top
+
 ; Positive Z is 'hill' on hotbed
 ; Negative Z is 'valley' on hotbed
+
 ; Normal Z adjustment file should have all Z negative or zero
-; Printer lsusb iSerial: 6D8610755653
-; Hotbed at 57 deg C
-; when started from cold, use: --zoffset=-0.03
-; when long time hot, use: --zoffset=0.03
-; xlimit=0 ylimit=100
-; xmin=0 xmax=98
-; ymin=0 ymax=100
-; xbed=-1 ybed=-3
+
+; PETG: 227'C/57'C speed 40 mm/s
+; load 1.75mm filament, set flow rate 75%
+; Layer height: 0.3mm
+; 1st layer: width: 200%, speed 7 mm/s
+; RepetierHost->Printer Settings->Advanced
+; before Z-actuator upgrade (don't use this anymore)
+; zleveler.py --inputfile=#in --outputfile=#out
+; --updown_threshold=-0.01 --updown=-0.08 --zoffset=-0.04
+; after Z-actuator upgrade
+; zleveler.py --inputfile=#in --outputfile=#out
+; --updown_threshold=-0.0 --updown=-0.0 --zoffset=-0.06
 
 X0   Y0   Z-0.10
 X5   Y0   Z-0.10

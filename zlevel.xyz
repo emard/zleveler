@@ -2,16 +2,20 @@
 
 ; Positive Z is 'hill' on hotbed
 ; Negative Z is 'valley' on hotbed
+
 ; Normal Z adjustment file should have all Z negative or zero
 
-; PETG: 210'C/57'C speed 16mm/s
-; load 1.75mm filament but tell slicer it is 2.00 mm
-; effectively it will reduce flow rate to 75% of nominal
+; PETG: 227'C/57'C speed 40 mm/s
+; load 1.75mm filament, set flow rate 75%
 ; Layer height: 0.3mm
-; 1st layer: width: 200%, speed 4mm/s
+; 1st layer: width: 200%, speed 7 mm/s
 ; RepetierHost->Printer Settings->Advanced
+; before Z-actuator upgrade (don't use this anymore)
 ; zleveler.py --inputfile=#in --outputfile=#out
 ; --updown_threshold=-0.01 --updown=-0.08 --zoffset=-0.04
+; after Z-actuator upgrade
+; zleveler.py --inputfile=#in --outputfile=#out
+; --updown_threshold=-0.0 --updown=-0.0 --zoffset=-0.06
 
 X0   Y0   Z-0.20
 X10  Y0   Z-0.10
