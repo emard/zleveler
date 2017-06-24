@@ -11,6 +11,9 @@
 #Param: outputfile(string:"output.gcode") output g-code file
 #Param: view(int:0) View of zlevelfile
 
+# Author: EMARD
+# License: GPL
+# https://github.com/emard/zleveler
 
 import re, math
 import numpy
