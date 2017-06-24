@@ -201,7 +201,7 @@ with output_fd as f:
                              f.write("X%0.3f " %(x-dx*advance*0.5))
                              f.write("Y%0.3f " %(y-dy*advance*0.5))
                              f.write("Z%0.3f " %(newZ+updown))
-                             if e: f.write("E%0.5f " %(e-de*advance*0.5))
+                             f.write("E%0.5f " %(e-de*advance*0.5))
                              if v: f.write("F%0.1f " %(v))
                              f.write("\n")
                              updown_mode = 1
@@ -219,7 +219,7 @@ with output_fd as f:
                            f.write("X%0.3f " %(x))
                            f.write("Y%0.3f " %(y))
                            f.write("Z%0.3f " %(alterZ))
-                           if e: f.write("E%0.5f " %(e))
+                           f.write("E%0.5f " %(e))
                            if v: f.write("F%0.1f " %(v))
                            f.write("\n")
                else:
