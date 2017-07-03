@@ -144,7 +144,8 @@ segment will be shorter than "xymax". Default value 10 mm.
 
     -i --inputfile=string
 
-Input G-code file without Z-axis correction. Currently files from curaengine are known to work.
+Input G-code file without Z-axis correction. Currently files from
+"curaengine" and "slic3r" are known to work.
 Default is "-" as stdin.
 
     -l --levelfile=string
