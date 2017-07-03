@@ -19,14 +19,8 @@ Adjust hotbed mechanically so that without zlevler
 nozzle at Z=0 doesn't touch the hotbed surface.
 
 Surface sampling: Move the nozzle accross the hotbed and 
-count how many papers can be inserted between the nozle and hotbed. 
-
-A 2D interpolation method "RBF" is used which is adaptive
-so the calibration points can be randomly sampled.
-You dont neccessary need to sample e.g. complete 5x5 grid 
-over the hotbed.
-
-Probing example: at point X=10 Y=20 you can insert 3 papers.
+count how many papers can be inserted between the nozle and hotbed.
+Example: at point X=10 Y=20 you can insert 3 papers.
 Assuming each paper is about 0.1 mm then you'd enter
 a line:
 
@@ -65,6 +59,11 @@ Example of complete file:
     X50  Y100 Z0
     X75  Y100 Z-0.1
     X100 Y100 Z-0.2
+
+A 2D interpolation method "RBF" is used which is adaptive
+so the calibration points can be randomly sampled.
+You don't neccessary need to sample e.g. complete 5x5 grid 
+over the hotbed.
 
 Graphical view:
 
