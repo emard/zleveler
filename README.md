@@ -156,6 +156,33 @@ Z-level file. Default is "~/.zlevel.xyz"
 
 Output G-code with Z-axis correction. Default is "-" as stdout.
 
+# Automatic Z-probing
+
+You don't need any special autoleveling support in firmware or hardware,
+only a working Z-endstop switch and some G-code command (M119) which
+reports endstop status.
+
+Z-probing switch should be connected parallel to Z-endstop switch.
+so triggering Z-probing switch will make the same signal as
+Z-endstop switch.
+
+Z-probing switch should be temporarily mounted on the hotend in order
+to generate zlevel.xyz file and removed afterwards.
+
+Python script "zprobe.py" will send G-codes to scan hotbed over a XY grid.
+At each point of the grid it will lower the hotend until Z-probing
+switch triggers, recording each point to a calibration file "zlevel.xyz".
+
+During normal use, hotbed will keep its shape so Z-probing needs to be
+obtained only once and will last for a very long time (months, years).
+
+# Z-probing adapter
+
+Openscad 3D-printable adapter "zprobe.scad" can hold small PCB
+with Z-probing switch. Adapter has fittings to be properly mounted
+on the hotend and also has hooks to temporarily hold fan assembly.
+This adapter is suitable for "Fabrikator II mini".
+
 # Disclaimer
 
 This code may have bugs and produce g-codes which lead to hardware error.
