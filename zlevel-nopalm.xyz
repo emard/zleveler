@@ -7,12 +7,9 @@
 
 ; PETG: 227'C/57'C speed 40 mm/s
 ; load 1.75mm filament, set flow rate 75%
-; Layer height: 0.3mm
-; 1st layer: width: 200%, speed 7 mm/s
+; Layer height: 0.3 mm
+; 1st layer: height: 0.28 mm, width: 200%, speed 7 mm/s
 ; RepetierHost->Printer Settings->Advanced
-; before Z-actuator upgrade (don't use this anymore)
-; zleveler.py --inputfile=#in --outputfile=#out
-; --updown_threshold=-0.01 --updown=-0.08 --zoffset=-0.04
 ; after Z-actuator upgrade
 ; zleveler.py --inputfile=#in --outputfile=#out
 ; --updown_threshold=-0.0 --updown=-0.0 --zoffset=-0.06
