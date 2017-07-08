@@ -37,14 +37,14 @@ serdelay = 0.2 # s serial delay to read response
 xmin=0
 xmax=95.001
 xstep=5
-xoffset=1
+xoffset=1 # added to x
 
 ymax=95
 ymin=-0.001
 ystep=-5
-yoffset=2
+yoffset=2 # added to y
 
-zoffset=-0.15
+zoffset=-0.20 # added to z
 
 def gcode_html(printer, cmd):
   r = requests.get("http://" + printer + "/set?code=" + cmd)
