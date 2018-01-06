@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+# virtual serial port to the printer
+# socat  pty,link=/dev/ttyACM0,raw  tcp:192.168.1.60:23
+# ls -al /dev/ttyACM0
+# rwxrwxrwx 1 root root 10 Sij  6 22:32 /dev/ttyACM0 -> /dev/pts/6
+# chown your_username:your_username /dev/pts/6
+
 import re, math
 import numpy
 import scipy
