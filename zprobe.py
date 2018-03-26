@@ -109,7 +109,7 @@ while n < repeat:
               time.sleep(zdelay)
             endstop=gcode(f,"M119")
             # print(endstop)
-            if b"z_stop: TRIGGERED" in endstop:
+            if b"z_stop: TRIGGERED" in endstop or b"z_min:H" in endstop:
               zswitch = 1
               # fill associative array
               aindex = "X%.2f Y%.2f" % (x+xoffset,y+yoffset)
