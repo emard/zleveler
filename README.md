@@ -183,6 +183,33 @@ with Z-probing switch. Adapter has fittings to be properly mounted
 on the hotend and also has hooks to temporarily hold fan assembly.
 This adapter is suitable for "Fabrikator II mini".
 
+On z-probe adapter mount small switch with help of some universal
+PCB and screws. Try to position the switch so that when pressed it makes
+contact "click" at approx the same xy position as the nozzle. z contact
+position doesn't matter here. Take also care that this swich will replace
+signal of z-stop switch and should be able mechanically go to xy home,
+go down until itself is triggered for new z-stop and without breaking
+leave this xyz-home position in y direction.
+
+Connect 2.54 mm 2-pin header parallel to original z-stop switch.
+Connect female 2.54 mm 2-pin socket on the z-probe switch with  wires,
+of suitable length for z-probe to move around xy plate, wire should
+be not too short not too long cca 20 cm.
+
+To mount z-probe first raise up Z axis so nozzle is about 2-3 cm above printing plate.
+Remove springs that hold fan assembly and carefully separate fan assembly
+from the heatsink.. Check z-probe assembly 
+(with the wired switch) trying to place it at the heatsink to test if it exactly
+fits with its shape mathing the heatsink fins.
+
+There are small holes for the springs at the zprobe. Place rear spring first at hole 
+of the zprobe adapter, holding probe at some z-angle relative to heatsink so spring
+doesn't tighten yet. Now holding heatsink, gently place zprobe adapter correctly
+z-angle = 0, and rear spring will tighten. With help of some tool
+carefully place front spring to zprobe front hole. 
+Return fan assembly into the "hands" of zprobe adapter it should exactly
+fit.
+
 # Disclaimer
 
 This code may have bugs and produce g-codes which lead to hardware error.
