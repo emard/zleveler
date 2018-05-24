@@ -200,15 +200,17 @@ To mount z-probe first raise up Z axis so nozzle is about 2-3 cm above printing 
 Remove springs that hold fan assembly and carefully separate fan assembly
 from the heatsink.. Check z-probe assembly 
 (with the wired switch) trying to place it at the heatsink to test if it exactly
-fits with its shape mathing the heatsink fins.
+fits with its "back" side mathcing the space inside heatsink fins.
 
 There are small holes for the springs at the zprobe. Place rear spring first at hole 
 of the zprobe adapter, holding probe at some z-angle relative to heatsink so spring
 doesn't tighten yet. Now holding heatsink, gently place zprobe adapter correctly
 z-angle = 0, and rear spring will tighten. With help of some tool
-carefully place front spring to zprobe front hole. 
-Return fan assembly into the "hands" of zprobe adapter it should exactly
-fit.
+carefully place front spring to zprobe front hole. Connect z-probe switch
+wires to connector parallel to original z-stop switch. Return fan assembly into the 
+"hands" of zprobe adapter it should exactly fit. Move motors manually to
+check if everything is mechanically ok (nothing should break nor scratch)
+before) letting machine use z-probe.
 
 # Disclaimer
 
