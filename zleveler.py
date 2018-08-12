@@ -133,9 +133,15 @@ x = 0
 y = 0
 z = zi(x,y)
 newZ = z
+levelZ = z
 e = 0
 v = 0
-absolute_mode = 0
+cur_x = x
+cur_y = y
+cur_z = z
+cur_e = e
+absolute_mode = 1
+absolute_extrude = 0
 updown_mode = 0
 
 layer = 0
@@ -149,6 +155,12 @@ with output_fd as f:
        for line in lines:
                if ";LAYER:" in line:
                     layer = int(line[7:])
+
+               g = getValue(line, "M", None)
+               if g != None and g > 81.999 and g < 82.001:
+                 absolute_extrude = 1
+               if g != None and g > 82.999 and g < 83.001:
+                 absolute_extrude = 0
                
                g = getValue(line, "G", None)
                if g != None and g > 89.999 and g < 90.001:
@@ -160,51 +172,91 @@ with output_fd as f:
                  y = getValue(line, "Y", y)
                  z = getValue(line, "Z", z)
                  e = getValue(line, "E", e)
-               
-               if g != None and g > -0.001 and g < 1.001 and (z < toZ or zoffset != 0.0) and absolute_mode > 0:
-                       cur_x = getValue(line, "X", x)
-                       cur_y = getValue(line, "Y", y)
-                       cur_e = getValue(line, "E", e)
-                       dx = cur_x - x
-                       dy = cur_y - y
-                       de = cur_e - e
-                       z = getValue(line, "Z", z)
+                 cur_x = x
+                 cur_y = y
+                 cur_z = z
+                 cur_e = e
+               if g != None and g > 27.999 and g < 28.001:
+                 x = 0
+                 y = 0
+                 z = 0
+
+               if g != None and g > -0.001 and g < 1.001: # and (cur_z < toZ or zoffset != 0.0):
+                       if absolute_mode > 0:
+                         cur_x = getValue(line, "X", x)
+                         cur_y = getValue(line, "Y", y)
+                         cur_z = getValue(line, "Z", z)
+                         dx = cur_x - x
+                         dy = cur_y - y
+                         dz = cur_z - z
+                       else: # relative xyz mode
+                         dx = getValue(line, "X", 0.0)
+                         dy = getValue(line, "Y", 0.0)
+                         dz = getValue(line, "Z", 0.0)
+                         cur_x += dx
+                         cur_y += dy
+                         cur_z += dz
+
+                       if absolute_extrude > 0:
+                         cur_e = getValue(line, "E", e)
+                         de = cur_e - e
+                       else: # relative extrude
+                         de = getValue(line, "E", 0.0)
+                         cur_e += de
+
                        v = getValue(line, "F", None)
                        # apply adjustment, linearly reduced with layers
 
                        # todo: split one long G line into many short ones
                        xytravel = math.sqrt(dx*dx + dy*dy)
                        nsegments = 1
-                       if xytravel > xymax and z < toZ:
+                       if xytravel > xymax and cur_z < toZ:
                          nsegments = 1+int(xytravel / xymax)
                          f.write((";LINE SPLIT %d SEGMENTS"%(nsegments))+"\n")
 
                        advance = 1.0/nsegments
                        for i in range(1,1+nsegments): # loop from 1 to nsegments
+                           last_x = x
+                           last_y = y
+                           last_z = z
+                           last_levelZ = levelZ
+                           last_e = e
                            if i < nsegments:
                              x += dx * advance
                              y += dy * advance
+                             z += dz * advance
                              e += de * advance
                            else:
                              x = cur_x
                              y = cur_y
+                             z = cur_z
                              e = cur_e
 
                            zlevel = 0.0
-                           if z < toZ:
-                             zlevel = zi(x,y) * (toZ-z)/toZ
+                           if cur_z < toZ:
+                             zlevel = zi(x,y) * (toZ-cur_z)/toZ
                            oldZ = newZ
-                           newZ = z + zoffset + zlevel
+                           newZ = cur_z + zoffset + zlevel
                            # for up-down split segment in 2
                            if (nsegments > 1 and newZ-oldZ < updown_threshold and updown < -0.00001) \
                            or (nsegments > 1 and newZ-oldZ > updown_threshold and updown > 0.00001):
                              # first half - Z updown
+                             levelZ = newZ+updown
                              f.write("; UPDOWN\n");
                              f.write("G%d " %(g))
-                             f.write("X%0.3f " %(x-dx*advance*0.5))
-                             f.write("Y%0.3f " %(y-dy*advance*0.5))
-                             f.write("Z%0.3f " %(newZ+updown))
-                             f.write("E%0.5f " %(e-de*advance*0.5))
+                             if absolute_mode > 0:
+                               f.write("X%0.3f " %(x-dx*advance*0.5))
+                               f.write("Y%0.3f " %(y-dy*advance*0.5))
+                               f.write("Z%0.3f " %(levelZ))
+                             else: # relative xyz
+                               f.write("X%0.3f " %(dx*advance*0.5))
+                               f.write("Y%0.3f " %(dy*advance*0.5))
+                               f.write("Z%0.3f " %(levelZ-oldZ))
+                               last_levelZ = levelZ
+                             if absolute_extrude > 0:
+                               f.write("E%0.5f " %(e-de*advance*0.5))
+                             else:
+                               f.write("E%0.5f " %(de*advance*0.5))
                              if v: f.write("F%0.1f " %(v))
                              f.write("\n")
                              updown_mode = 1
@@ -218,11 +270,20 @@ with output_fd as f:
                            else:
                              alterZ = newZ
                              updown_mode = 0
+                           levelZ = alterZ
                            f.write("G%d " %(g))
-                           f.write("X%0.3f " %(x))
-                           f.write("Y%0.3f " %(y))
-                           f.write("Z%0.3f " %(alterZ))
-                           f.write("E%0.5f " %(e))
+                           if absolute_mode > 0:
+                             f.write("X%0.3f " %(x))
+                             f.write("Y%0.3f " %(y))
+                             f.write("Z%0.3f " %(levelZ))
+                           else: # relative xyz
+                             f.write("X%0.3f " %(x-last_x))
+                             f.write("Y%0.3f " %(y-last_y))
+                             f.write("Z%0.3f " %(levelZ-last_levelZ))
+                           if absolute_extrude > 0:
+                             f.write("E%0.5f " %(e))
+                           else: # relative extrude
+                             f.write("E%0.5f " %(e-last_e))
                            if v: f.write("F%0.1f " %(v))
                            f.write("\n")
                else:
