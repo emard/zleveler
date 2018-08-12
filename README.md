@@ -105,9 +105,9 @@ make it executable:
 
     chmod +x /home/user/zleveler-slic3r.sh
 
-Run slic3r select
+Configure slic3r:
 
-    Print Settings -> Output Options -> Post-processing scripts:
+    Print Settings -> Output Options -> Post-processing scripts
 
 And enter absolute path to this post-processing script.
 
