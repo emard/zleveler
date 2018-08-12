@@ -71,7 +71,7 @@ xstep=10
 xoffset=22 # added to x
 
 ymin=-8.0
-ymax=220.001
+ymax=210.001
 ystep=10
 yoffset=8 # added to y
 
