@@ -24,41 +24,71 @@ import os.path
 import serial
 import time
 
-zhigh_nl = 5.0 # travel to newline Y with this high
-zhigh = 1.0 # travel to next Y with this high
-zstart = 0.4
-zlow = -0.4
+# Fabrikator ][ mini
+#zhigh_nl = 5.0 # travel to newline Y with this high
+#zhigh = 1.0 # travel to next Y with this high
+#zstart = 0.4
+#zlow = -0.4
+#zstep = -0.05
+#repeat = 3 # repeat measurement N times, averaging
+
+#delay_connect = 10.0 # wait for serial connection
+#delay0 = 10.0 # s to initially setup
+#delaynl = 4.0 # s newline delay
+#zdelay1 = 0.7 # s initial delay for z to move to first point
+#zdelay = 0.01 # s delay for small read endstop status
+
+#xmin=0
+#xmax=95.001
+#xstep=5
+#xoffset=1 # added to x
+
+#ymax=95
+#ymin=-0.001
+#ystep=-5
+#yoffset=2 # added to y
+
+#zoffset=-0.20 # added to z
+
+# PRUSA i3mk3
+zhigh_nl = 10.0 # travel to newline Y with this high
+zhigh = 10.0 # travel to next Y with this high
+zstart = 0.5
+zlow = -0.5
 zstep = -0.05
 repeat = 3 # repeat measurement N times, averaging
 
-#zstart = 0.5
-#zlow = -0.5
-#zstep = -0.1
-delay0 = 10.0 # s to initially setup
-delaynl = 4.0 # s newline delay
-zdelay1 = 0.7 # s initial delay for z to move to first point
-zdelay = 0.01 # s delay for small read endstop status
+delay_connect = 10.0 # wait for serial connection
+delay0 = 40.0 # s to initially setup
+delaynl = 20.0 # s newline delay
+zdelay1 = 2.0 # s delay for z to move to next point
+zdelay = 4.0 # s delay for small read endstop status (cca 0.01) or G30 delay (cca 5.0)
 serdelay = 0.2 # s serial delay to read response
 
-xmin=0
-xmax=95.001
-xstep=5
-xoffset=1 # added to x
+xmin=0.0
+xmax=220.001
+xstep=20
+xoffset=22 # added to x
 
-ymax=95
-ymin=-0.001
-ystep=-5
-yoffset=2 # added to y
+ymin=-8.0
+ymax=200.001
+ystep=20
+yoffset=8 # added to y
 
-zoffset=-0.20 # added to z
+zoffset=-1.00 # added to z
+
+# Probe type:
+# M119: mechanical switch connected to Z-endstop (fabrikator ][ mini)
+# G30: firmware-supported probe (prusa i3mk3)
+probe_type="G30"
 
 def gcode_html(printer, cmd):
   r = requests.get("http://" + printer + "/set?code=" + cmd)
   return r.text
 
-def gcode(printer, cmd):
+def gcode(printer, cmd, wait=serdelay):
   r = printer.write(cmd.encode('ascii')+b"\r")
-  time.sleep(serdelay)
+  time.sleep(wait)
   response = printer.read(1)
   response += printer.read(printer.inWaiting())
   return response
@@ -76,28 +106,49 @@ output_fd=open(os.path.expanduser(output_filename), "w")
 zlevel = output_fd
 
 if 1 == 1:
-    gcode(f,"G90; absolute positioning")
-    gcode(f,"M203 Z2; fast Z feedrate 2 mm/s (120 mm/s)")
-    gcode(f,"M140 S57; heat bed to 57'C")
-    gcode(f,"G28 X Y; go home XY but not Z")
-    gcode(f,"G0 X50 Y50; go to center of the bed")
-    gcode(f,"G28 Z; go home Z now at center of the bed")
-    gcode(f,"M119; read endstop status")
-    gcode(f,"G0 Z%.2f; safety lift Z above" % zhigh_nl)
+    print("connecting")
+    time.sleep(delay_connect)
+    print("start zprobe")
+    # Fabrikator ][ mini
+    #gcode(f,"G90; absolute positioning")
+    #gcode(f,"M203 Z2; fast Z feedrate 2 mm/s (120 mm/s)")
+    #gcode(f,"M140 S57; heat bed to 57'C")
+    #gcode(f,"G28 X Y; go home XY but not Z")
+    #gcode(f,"G0 X50 Y50; go to center of the bed")
+    #gcode(f,"G28 Z; go home Z now at center of the bed")
+    #gcode(f,"M119; read endstop status")
+    # PRUSA i3mk3
+    #gcode(f,"M140 S85; heat bed to 85'C")
+    gcode(f,"G28") # ; auto home with mesh leveling on PRUSA
+    # common
+    gcode(f,"G0 Z%.2f" % zhigh_nl) # safety lift Z above
     time.sleep(delay0)
+
+if ystep > 0:
+  yfirst = ymin
+  ylast = ymax
+else:
+  yfirst = ymax
+  ylast = ymin
 
 # with output_fd as zlevel:
 n = 0
 while n < repeat:
     x = xmin
     while x <= xmax:
-      y = ymax
-      while y >= ymin:
+      if ystep > 0:
+        yfirst = ymin
+        ylast = ymax
+      else:
+        yfirst = ymax
+        ylast = ymin
+      y = yfirst
+      while (y - ylast) * ystep <= 0:
         # print("X%.2f Y%.2f " % (x,y))
         gcode(f, "G0 X%.2f Y%0.2f" % (x,y))
-        if y == ymax:
+        if y == yfirst:
           time.sleep(delaynl)
-        if 1 == 1: # the measurement
+        if probe_type == "M119": # the measurement for mechanical switch
           z = zstart # set to start of probing point
           zswitch = 0
           while z > zlow and zswitch == 0:
@@ -121,6 +172,21 @@ while n < repeat:
                 an[aindex] = 1
               print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
             z += zstep
+        if probe_type == "G30": # measurement done by firmware (PRUSA i3MK3)
+          endstop = gcode(f, "G30", zdelay).decode("UTF-8")
+          # endstop will among others report this line:
+          # Bed X: 0.20000 Y: -3.80000 Z: 1.03167
+          parse = re.match(r".*Bed X: (?P<X>[+-]?\d+[.]\d+) Y: (?P<Y>[+-]?\d+[.]\d+) Z: (?P<Z>[+-]?\d+[.]\d+).*", endstop, re.DOTALL)
+          if parse: # re.match successful
+            z = float(parse.group("Z"))
+            aindex = "X%.2f Y%.2f" % (x+xoffset,y+yoffset)
+            if aindex in an:
+              az[aindex] += z+zoffset
+              an[aindex] += 1
+            else:
+              az[aindex] = z+zoffset
+              an[aindex] = 1
+            print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
         y += ystep
         if y >= ymin:
           gcode(f, "G0 Z%.2f" % zhigh) # small lift in the same Y line
