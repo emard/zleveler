@@ -84,6 +84,8 @@ Copy zleveler.py to any command search path
     chmod +x zleveler.py
     cp zleveler.py /usr/local/bin
 
+# Repetierhost
+
 Open repetierhost, select "curaengine" or "slic3r" slicer.
 Printer Settings->Advanced->Post Slice FIlter
 enter in the input box example:
@@ -91,11 +93,23 @@ enter in the input box example:
     [zleveler.py --inputfile=#in --outputfile=#out --view=0 --updown_threshold=-0.001 --updown=-0.10 --zoffset=-0.03]
     [x] Run Filter after every Slice
 
-When slic3r alone is used, give it absolute path
-to this post-processing script:
+# Slic3r
 
+Save this post-processing script to any file:
+
+    #!/bin/sh
     # slic3r in-place post-processing script
     exec zleveler.py --inputfile="$1" --outputfile="$1" --view=0 --updown_threshold=-0.0 --updown=-0.0 --zoffset=-0.01
+
+make it executable:
+
+    chmod +x /home/user/zleveler-slic3r.sh
+
+Run slic3r select
+
+    Print Settings -> Output Options -> Post-processing scripts:
+
+And enter absolute path to this post-processing script.
 
 # Options
 
