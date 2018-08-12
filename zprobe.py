@@ -65,14 +65,14 @@ zdelay1 = 2.0 # s delay for z to move to next point
 zdelay = 4.0 # s delay for small read endstop status (cca 0.01) or G30 delay (cca 5.0)
 serdelay = 0.2 # s serial delay to read response
 
-xmin=0.0
+xmin=-2.0
 xmax=220.001
-xstep=20
+xstep=10
 xoffset=22 # added to x
 
 ymin=-8.0
-ymax=200.001
-ystep=20
+ymax=220.001
+ystep=10
 yoffset=8 # added to y
 
 zoffset=-1.00 # added to z
