@@ -103,7 +103,7 @@ Save this post-processing script to any file:
 
 make it executable:
 
-    chmod +x /home/user/zleveler-slic3r.sh
+    chmod +x /home/user/bin/zleveler-slic3r.sh
 
 Configure slic3r:
 
