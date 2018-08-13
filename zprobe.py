@@ -75,7 +75,7 @@ ymax=210.001
 ystep=10
 yoffset=8 # added to y
 
-zoffset=-1.00 # added to z
+zoffset=0.40 # added to z
 
 # Probe type:
 # M119: mechanical switch connected to Z-endstop (fabrikator ][ mini)
@@ -183,10 +183,10 @@ while n < repeat:
             z = float(parse.group("Z"))
             aindex = "X%.2f Y%.2f" % (x+xoffset,y+yoffset)
             if aindex in an:
-              az[aindex] += z+zoffset
+              az[aindex] += -z+zoffset
               an[aindex] += 1
             else:
-              az[aindex] = z+zoffset
+              az[aindex] = -z+zoffset
               an[aindex] = 1
             print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
         y += ystep
