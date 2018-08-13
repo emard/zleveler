@@ -60,9 +60,9 @@ repeat = 3 # repeat measurement N times, averaging
 
 delay_connect = 10.0 # wait for serial connection
 delay0 = 40.0 # s to initially setup
-delaynl = 20.0 # s newline delay
-zdelay1 = 2.0 # s delay for z to move to next point
-zdelay = 4.0 # s delay for small read endstop status (cca 0.01) or G30 delay (cca 5.0)
+delaynl = 10.0 # s newline delay
+zdelay1 = 1.0 # s delay for z to move to next point
+zdelay = 2.0 # s delay for small read endstop status (cca 0.01) or G30 delay (cca 5.0)
 serdelay = 0.2 # s serial delay to read response
 
 xmin=-2.0
@@ -118,10 +118,12 @@ if 1 == 1:
     #gcode(f,"G28 Z; go home Z now at center of the bed")
     #gcode(f,"M119; read endstop status")
     # PRUSA i3mk3
-    #gcode(f,"M140 S85; heat bed to 85'C")
+    gcode(f,"G90; absolute positioning")
+    gcode(f,"M140 S0") # heat bed off
+    gcode(f,"M140 S85") # heat bed to 85'C
     gcode(f,"G28") # ; auto home with mesh leveling on PRUSA
     # common
-    gcode(f,"G0 Z%.2f" % zhigh_nl) # safety lift Z above
+    gcode(f,"G0 Z%.2f F5000" % zhigh_nl) # safety lift Z above
     time.sleep(delay0)
 
 if ystep > 0:
@@ -204,7 +206,7 @@ while n < repeat:
 
 if 1 == 1: # leaving at center of hotbed
     gcode(f,"G0 X50 Y50; go to center of the bed")
-    gcode(f,"M140 S0; heat bed off")
+    gcode(f,"M140 S0") # heat bed off
     gcode(f,"G92;relative positioning")
     gcode(f,"M84;motors off")
 
