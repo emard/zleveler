@@ -180,15 +180,15 @@ while n < repeat:
           # Bed X: 0.20000 Y: -3.80000 Z: 1.03167
           parse = re.match(r".*Bed X: (?P<X>[+-]?\d+[.]\d+) Y: (?P<Y>[+-]?\d+[.]\d+) Z: (?P<Z>[+-]?\d+[.]\d+).*", endstop, re.DOTALL)
           if parse: # re.match successful
-            z = float(parse.group("Z"))
+            z = -float(parse.group("Z"))
             aindex = "X%.2f Y%.2f" % (x+xoffset,y+yoffset)
             if aindex in an:
-              az[aindex] += -z+zoffset
+              az[aindex] += z+zoffset
               an[aindex] += 1
             else:
-              az[aindex] = -z+zoffset
+              az[aindex] = z+zoffset
               an[aindex] = 1
-            print("%s Z%.2f # avg=%.2f n=%d" % (aindex,-z+zoffset,az[aindex]/an[aindex],an[aindex]))
+            print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
         y += ystep
         if y >= ymin:
           gcode(f, "G0 Z%.2f" % zhigh) # small lift in the same Y line
