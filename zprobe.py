@@ -66,7 +66,7 @@ zdelay = 2.0 # s delay for small read endstop status (cca 0.01) or G30 delay (cc
 serdelay = 0.2 # s serial delay to read response
 
 xmin=-2.0
-xmax=220.001
+xmax=210.001
 xstep=10
 xoffset=22 # added to x
 
@@ -75,7 +75,7 @@ ymax=210.001
 ystep=10
 yoffset=8 # added to y
 
-zoffset=1.00 # added to z
+zoffset=-1.00 # added to z
 
 # Probe type:
 # M119: mechanical switch connected to Z-endstop (fabrikator ][ mini)
@@ -147,7 +147,7 @@ while n < repeat:
       y = yfirst
       while (y - ylast) * ystep <= 0:
         # print("X%.2f Y%.2f " % (x,y))
-        gcode(f, "G0 X%.2f Y%0.2f" % (x,y))
+        gcode(f, "G0 X%.2f Y%.2f" % (x,y))
         if y == yfirst:
           time.sleep(delaynl)
         if probe_type == "M119": # the measurement for mechanical switch
@@ -175,12 +175,12 @@ while n < repeat:
               print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
             z += zstep
         if probe_type == "G30": # measurement done by firmware (PRUSA i3MK3)
-          endstop = gcode(f, "G30", zdelay).decode("UTF-8")
+          endstop = gcode(f, "G30 X%.2f Y%.2f S-1" % (x,y), zdelay).decode("UTF-8")
           # endstop will among others report this line:
           # Bed X: 0.20000 Y: -3.80000 Z: 1.03167
           parse = re.match(r".*Bed X: (?P<X>[+-]?\d+[.]\d+) Y: (?P<Y>[+-]?\d+[.]\d+) Z: (?P<Z>[+-]?\d+[.]\d+).*", endstop, re.DOTALL)
           if parse: # re.match successful
-            z = -float(parse.group("Z"))
+            z = float(parse.group("Z"))
             aindex = "X%.2f Y%.2f" % (x+xoffset,y+yoffset)
             if aindex in an:
               az[aindex] += z+zoffset
