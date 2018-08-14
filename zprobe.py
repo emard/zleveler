@@ -188,7 +188,7 @@ while n < repeat:
             else:
               az[aindex] = -z+zoffset
               an[aindex] = 1
-            print("%s Z%.2f # avg=%.2f n=%d" % (aindex,z+zoffset,az[aindex]/an[aindex],an[aindex]))
+            print("%s Z%.2f # avg=%.2f n=%d" % (aindex,-z+zoffset,az[aindex]/an[aindex],an[aindex]))
         y += ystep
         if y >= ymin:
           gcode(f, "G0 Z%.2f" % zhigh) # small lift in the same Y line
@@ -206,6 +206,7 @@ while n < repeat:
 
 if 1 == 1: # leaving at center of hotbed
     gcode(f,"G0 X50 Y50; go to center of the bed")
+    gcode(f,"M140 S0") # heat bed off
     gcode(f,"M140 S0") # heat bed off
     gcode(f,"G92;relative positioning")
     gcode(f,"M84;motors off")
