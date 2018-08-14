@@ -75,7 +75,7 @@ ymax=210.001
 ystep=10
 yoffset=8 # added to y
 
-zoffset=0.40 # added to z
+zoffset=1.00 # added to z
 
 # Probe type:
 # M119: mechanical switch connected to Z-endstop (fabrikator ][ mini)
